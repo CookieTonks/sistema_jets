@@ -119,7 +119,7 @@
                                 Facturación
                             </a>
                             <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                            <a class="dropdown-item" href="{{route ('dashboard_facturacion')}}">Módulo Facturación</a>
+                                <a class="dropdown-item" href="{{route ('dashboard_facturacion')}}">Módulo Facturación</a>
                                 <a class="dropdown-item" href="{{route ('buscador_facturacion')}}">Buscador Facturación</a>
                             </div>
                         </li>
@@ -306,7 +306,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{route('registro_factura')}}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('registro_factura') }}" method="post" enctype="multipart/form-data" target="_blank">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 form-group">
@@ -332,7 +332,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12 form-group">
-                                            <label for="oc">Factura</label>
+                                            <label for="oc">Factura/Remision</label>
                                             <input class="form-control" id="factura" name="factura" placeholder="" value="" type="text" required>
                                         </div>
 

@@ -32,8 +32,9 @@ class produccion_controller extends Controller
             ->select('productions.*', 'orders.cantidad', 'orders.cant_entregada', 'orders.procesos', 'orders.cant_retrabajo')
             ->get();
 
+            
 
-        $usuarios = models\user::where('role', '=', 'Administrador')->get();
+        $usuarios = models\user::where('role', '=', 'Programador')->get();
 
         $maquinas = models\maquinas::all();
 
@@ -418,5 +419,7 @@ public function salida_produccion(Request $request)
         return redirect()->route('dashboard_produccion')->with('mensaje-success', $mensaje);
     }
     
+
+   
     
 }

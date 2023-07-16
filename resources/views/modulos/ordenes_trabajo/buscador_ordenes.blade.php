@@ -271,7 +271,7 @@
                                                     <td>{{$order->vendedor}}</td>
                                                     <td>
                                                         <div class="progress progres s-bar-xs mb-0 ">
-                                                            <div class="progress-bar bg-success progress-bar-striped" style="width:{{$order->progreso}}%;"></div>
+                                                            <div class="progress-bar bg-success progress-bar-striped" style="width:{{ ($order->tiempo_progreso / $order->tiempo_asignado) * 100 }}%;"></div>
                                                         </div>
                                                     </td>
                                                 </tr>

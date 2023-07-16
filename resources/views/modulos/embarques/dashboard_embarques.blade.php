@@ -119,7 +119,7 @@
                                 Facturación
                             </a>
                             <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                            <a class="dropdown-item" href="{{route ('dashboard_facturacion')}}">Módulo Facturación</a>
+                                <a class="dropdown-item" href="{{route ('dashboard_facturacion')}}">Módulo Facturación</a>
                                 <a class="dropdown-item" href="{{route ('buscador_facturacion')}}">Buscador Facturación</a>
                             </div>
                         </li>
@@ -235,7 +235,7 @@
                 </div>
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800"> </h1>
-                    <a href="{{route('ordenes_exports')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generar reporte</a>
+                    <a href="{{route('exportar_embarques')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Generar reporte</a>
                 </div>
                 <!-- /Title -->
                 <div class="row">
@@ -398,7 +398,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{route('salida_tratamiento')}}" method="post">
+                            <form action="{{ route('salida_tratamiento') }}" method="post" target="_blank">
                                 @csrf
 
                                 <div class="row">

@@ -197,6 +197,53 @@ class almacen_controller extends Controller
         return back()->with('mensaje-success', '¡Alta de material registrada!');
     }
 
+
+    public function material_stock(Request $request)
+    {
+
+        $date = Carbon::now();
+
+        $registro_material = new models\registros_almacen();
+        $registro_material->id_material = $request->id;
+        $registro_material->ot = $request->ot;
+        $registro_material->descripcion = $request->descripcion;
+        $registro_material->cantidad = $request->cantidad;
+        $registro_material->tipo_recepcion = 'STOCK ALMACEN';
+        $registro_material->personal = $request->personal;
+        $registro_material->fecha_recepcion = $date;
+        $registro_material->save();
+
+
+        $recepcion_material = models\materiales::where('id', '=', $request->id)->first();
+        $recepcion_material->estatus = 'STOCK ALMACEN';
+        $recepcion_material->cantidad_almacen = $request->cantidad_almacen;
+        $recepcion_material->fecha_almacen = $date;
+        $recepcion_material->personal_almacen = Auth::user()->name;
+        $recepcion_material->save();
+
+
+
+        $ruta = models\jets_rutas::where('ot', '=', $request->ot)->first();
+        $ruta->sistema_almacen = 'DONE';
+        $ruta->save();
+
+        $registro_jets = new models\jets_registros();
+        $registro_jets->ot = $request->ot;
+        $registro_jets->movimiento = 'ALMACEN - PRODUCCION';
+        $registro_jets->responsable = Auth::user()->name;
+        $registro_jets->save();
+
+
+        $produccion = models\production::where('ot', '=', $request->ot)->first();
+        $produccion->estatus = "L.PRODUCCION";
+        $produccion->save();
+
+
+
+
+        return back()->with('mensaje-success', '¡Alta de material registrada!');
+    }
+
     public function envio_tratamiento(Request $request)
     {
         $tratamiento = models\materiales::where('id', '=', $request->id)->first();

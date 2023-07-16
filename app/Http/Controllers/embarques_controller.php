@@ -28,6 +28,7 @@ class embarques_controller extends Controller
 
         $ordenes = models\salidas_produccion::where('estatus', '=', 'P/EMBARQUES')->get();
 
+
         $notificaciones = Models\notifications::all();
 
 
@@ -45,14 +46,18 @@ class embarques_controller extends Controller
     {
         $notificaciones = Models\notifications::all();
 
-        $ordenes_salidas = models\salidas_embarques::all();
+        $ordenes_salidas = models\salidas_embarques::join('orders', 'salidas_embarques.ot', '=', 'orders.id')
+        ->select('orders.cliente', 'salidas_embarques.*')
+        ->get();
+    
+
 
         return view('modulos.embarques.buscador_embarques', compact('ordenes_salidas', 'notificaciones'));
     }
 
     public function salida_tratamiento(Request $request)
     {
-        
+
         if ($request->tipo_salida == 'Remision') {
             $registro_jets = new models\jets_registros();
             $registro_jets->ot = $request->ot;
@@ -101,13 +106,11 @@ class embarques_controller extends Controller
             $salida_embarques->cantidad = $request->cant_piezas;
             $salida_embarques->estatus = 'Enviada por facturación';
             $salida_embarques->save();
-            
 
 
 
-            $rutas_jets = models\jets_rutas::where('ot', '=', $request->ot)->first();
-            $rutas_jets->sistema_embarques = 'DONE';
-            $rutas_jets->save();
+
+
 
             $orden = models\orders::where('id', '=', $request->ot)->first();
             $oc = $orden->cant_entregada;
@@ -116,7 +119,7 @@ class embarques_controller extends Controller
             $orden->cant_entregada = $suma;
             $orden->save();
 
-                 $salida = models\salidas_produccion::where('id', '=', $request->id)->first();
+            $salida = models\salidas_produccion::where('id', '=', $request->id)->first();
             $salida->estatus = "L/FACTURAR";
             $salida->save();
 
@@ -128,42 +131,14 @@ class embarques_controller extends Controller
             return $pdf->stream($request->ot . '.pdf');
         }
 
+        $rutas_jets = models\jets_rutas::where('ot', '=', $request->ot)->first();
+        $rutas_jets->sistema_embarques = 'DONE';
+        $rutas_jets->save();
+
 
         // if ($request->tipo_salida == 'Tratamiento') {
 
-        //     $registro_jets = new models\jets_registros();
-        //     $registro_jets->ot = $request->ot;
-        //     $registro_jets->movimiento = 'EMBARQUES - TRATAMIENTO';
-        //     $registro_jets->responsable = Auth::user()->name;
-        //     $registro_jets->save();
 
-        //     $salida_embarques = new models\salidas_embarques();
-        //     $salida_embarques->ot = $request->ot;
-        //     $salida_embarques->tipo_salida = $request->tipo_salida;
-        //     $salida_embarques->fecha_retorno = $request->fecha_retorno;
-        //     $salida_embarques->tipo_tratamiento = $request->tipo_tratamiento;
-        //     $salida_embarques->proveedor = $request->proveedor_tratamiento;
-        //     $salida_embarques->cantidad = $request->cant_piezas;
-        //     $salida_embarques->estatus = 'Enviada a tratamiento';
-        //     $salida_embarques->save();
-
-        //     $alta_material = new Models\materiales();
-        //     $alta_material->ot = $request->ot;
-        //     $alta_material->tipo = 'TRATAMIENTO';
-        //     $alta_material->material = $request->tipo_salida;
-        //     $alta_material->cantidad_solicitada = $request->cant_pieza;
-        //     $alta_material->descripcion = $request->descripcion;
-        //     $alta_material->proveedor = $request->proveedor_tratamiento;
-        //     $alta_material->estatus = 'SOLICITADA';
-        //     $alta_material->save();
-
-
-        //     $orden = models\orders::where('id', '=', $request->ot)->first();
-        //     $salida = models\salidas_embarques::where('id', '=', $salida_embarques->id)->first();
-
-        //     $pdf = PDF::loadView('modulos.embarques.tratamiento_embarques', compact('orden', 'salida'));
-        //     return $pdf->stream($request->ot . '.pdf');
-        // }
     }
 
     public function regreso_tratamiento($orden_tratamiento)

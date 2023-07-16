@@ -293,6 +293,9 @@
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#material_compras" data-id="{{$material->id}}" data-ot="{{$material->ot}}" data-descripcion="{{$material->descripcion}}" data-cantidad="{{$material->cantidad_solicitada}}" data-oc="{{$material->oc}}" data-proveedor="{{$material->proveedor }}">
                                                             <i class="icon-bell"></i>
                                                         </button>
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#material_stock" data-id="{{$material->id}}" data-ot="{{$material->ot}}" data-descripcion="{{$material->descripcion}}" data-cantidad="{{$material->cantidad_solicitada}}" data-oc="{{$material->oc}}" data-proveedor="{{$material->proveedor }}">
+                                                            <i class="icon-check"></i>
+                                                        </button>
                                                     </td>
                                                     @endif
 
@@ -614,7 +617,54 @@
                                             <label for="Factura">Cantidad para comprar</label>
                                             <input class="form-control" id="cantidad_almacen" name="cantidad_almacen" placeholder="" value="" type="text">
                                         </div>
-                                        
+
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-block btn-primary">Registrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="material_stock" tabindex="-1" role="dialog" aria-labelledby="exampleModalForms" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Material: Solicitar a compras</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{route('material_stock')}}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-0 form-group">
+                                            <input class="form-control" id="id" name="id" placeholder="" value="" type="text" hidden>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="dibujo">OT</label>
+                                            <input class="form-control" id="ot" name="ot" placeholder="" value="" type="text" readonly>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="dibujo">Cantidad</label>
+                                            <input class="form-control" id="cantidad" name="cantidad" placeholder="" value="" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label for="dibujo">Descripcion</label>
+                                            <input class="form-control" id="descripcion" name="descripcion" placeholder="" value="" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label for="Factura">Cantidad en almacen</label>
+                                            <input class="form-control" id="cantidad_almacen" name="cantidad_almacen" placeholder="" value="" type="text">
+                                        </div>
+
                                     </div>
                                     <br>
                                     <button type="submit" class="btn btn-block btn-primary">Registrar</button>
@@ -869,6 +919,32 @@
         });
     </script>
 
+
+    <script>
+        $(document).ready(function() {
+            $('#material_stock ').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var ot = button.data('ot')
+                var id = button.data('id')
+                var descripcion = button.data('descripcion')
+                var cantidad = button.data('cantidad')
+                var oc = button.data('oc')
+                var proveedor = button.data('proveedor')
+
+
+                var modal = $(this)
+                modal.find('.modal-title').text('Compra de material')
+                modal.find('#ot').val(ot)
+                modal.find('#id').val(id)
+                modal.find('#descripcion').val(descripcion)
+                modal.find('#cantidad').val(cantidad)
+                modal.find('#oc').val(oc)
+                modal.find('#proveedor').val(proveedor)
+
+
+            })
+        });
+    </script>
 
     <!-- Select2 JavaScript -->
     <script src="../plantilla/vendors/select2/dist/js/select2.full.min.js"></script>

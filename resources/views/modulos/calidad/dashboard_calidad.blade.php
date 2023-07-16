@@ -443,11 +443,11 @@
                                     <div class="row">
                                         <div class="col-md-6 form-group">
                                             <label for="ot">OT</label>
-                                            <input class="form-control" id="ot" name="ot" placeholder="" value="" type="number" onlyread>
+                                            <input class="form-control" id="ot" name="ot" placeholder="" value="" type="number" readonly>
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label for="ot">Cliente</label>
-                                            <input class="form-control" id="cliente" name="cliente" placeholder="" value="" type="text" onlyread>
+                                            <input class="form-control" id="cliente" name="cliente" placeholder="" value="" type="text" readonly>
                                         </div>
 
                                     </div>
