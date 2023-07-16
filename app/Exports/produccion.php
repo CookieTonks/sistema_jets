@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Production;
+use App\Models\production;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithTitle;
@@ -12,7 +12,7 @@ class Produccion implements FromView, WithTitle
     public function view(): View
     {
         return view('modulos.exportaciones.production', [
-            'Produccion' => Production::all()
+            'Produccion' => production::all()
         ]);
     }
 
